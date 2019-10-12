@@ -1,0 +1,152 @@
+#include<bits/stdc++.h>
+#include<stdio.h>
+#include<set>
+#include<map>
+#define lli long long int
+using namespace std;
+bool check(lli l,lli r)
+{
+	if((l==0 && r==1) ||(l==1 && r==0))
+	return true;
+	else
+	return false;
+}
+lli grt(lli a,lli b)
+{
+	if(a>b)
+	return 1;
+	else
+	return 0;
+}
+lli even(lli a)
+{
+	return((a%2));
+}
+lli choose(lli i,lli n)
+{
+	lli ju;
+	if(i==1 || i==n)
+	{
+    	ju=0;
+	}
+	else
+	{
+		ju=i-1;
+	}
+			
+}
+void solve()
+{
+	lli t;
+	cin>>t;
+	while(t-->0)
+	{
+		lli n,f;
+		lli glm,p,at,l,r,lg;
+		cin>>n;
+		lli a[(n-1)];
+		lli i=0;
+		while(i<(n-1))
+		{
+			cin>>a[i];
+			i++;
+		}
+		i=0;
+		cin>>f;
+		lli D,k,ju;  
+		lli M=1231231241;
+		lli kk=123124124124;
+		p=-1;D=1000000000000000001;
+		for(i=1;i<=n;i++)
+		{
+			lli adj=1;
+			glm=0;
+			 ju=choose(i,n);
+			if(a[ju]>f)
+			continue;
+			k=a[ju];
+			//////
+			if(i==1)
+			{
+				at=n-1;
+				l=0;
+				lg=n-1;
+				r=n-1;
+			}
+			else if(i==n)
+			{
+			    r=0;
+				l=n-1;
+				at=n-1;
+				
+			}
+			else
+			{
+				l=i-1;
+				r=n-1-l;
+				lg=n-1;
+				at=l;
+			}
+			//////
+			while((l+r)>1)
+			{
+				if(check(l,r))
+			    break;
+				if(l>0)
+				{
+					if(even(l)==0)
+					{
+						at=at-adj;
+						l=l/2;
+					}
+					else
+					{
+						glm+=(a[(at-1)]);
+						l=(l/2)+1;
+					}
+				
+				}
+				if(r>0)
+				{
+					if(even(r)==0)
+					{
+						r=r/2;
+						lg=lg-adj;
+					}
+					else
+					{
+						if(l>0)
+						{
+						l--;
+						r=(r/2)+1;
+					    }
+					    else
+					    {
+					    	glm+=a[(lg-1)];
+					    	r=(r/2)+1;
+						}
+					}
+				}
+				adj=adj<<1;
+			if(check(l,r))
+			break;
+			}
+			if(grt(D,(glm+f))==1)
+			{
+				D=(glm+f);
+				p=i;
+			}
+		}
+		if(p!=-1)
+		{
+			printf("possible\n");
+		    printf("%lld %lld\n",p,D);
+		}
+		else
+		printf("impossible\n");
+	}
+}
+int main(void)
+{
+	solve();
+}
