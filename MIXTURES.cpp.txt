@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+ll arr[100];
+ll dp[100][100];
+ll minn(ll a ,ll b)
+{
+	if(a<b)
+	return a;
+	else
+	return b;
+}
+ll summ(int i,int j)
+{
+	ll s=0;
+	for(int k=i;k<=j;k++)
+	s+=arr[k];
+	s=s%100;
+	return s;
+}
+ll func(int i,int j)
+{
+	if(i>=j)
+	return 0;
+	if(dp[i][j]!=-1)
+	return dp[i][j];
+	dp[i][j]=INT_MAX;
+	for(int k=i;k<=j;k++)
+	{
+		dp[i][j]=minn(dp[i][j],(func(i,k)+func(k+1,j))+((summ(i,k)*summ(k+1,j))));
+	}
+	return dp[i][j];
+}
+int main(void)
+{
+	int n;
+	while(cin>>n)
+	{
+	for(int i=0;i<n;i++)
+	{
+		cin>>arr[i];
+	}
+	for(int i=0;i<100;i++)
+	{
+		for(int j=0;j<100;j++)
+		dp[i][j]=-1;
+	}
+	cout<<func(0,n-1)<<endl;
+   }
+}
