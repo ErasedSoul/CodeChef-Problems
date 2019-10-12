@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+ll n;
+ll arr[800];
+ll dp[800][800];
+ll pre[800];
+
+void lolwa()
+{
+		for(int i=1;i<n;i++)
+		  {
+		  	cin>>arr[i];
+		  	pre[i]=pre[(i-1)]+arr[i];
+		  }
+		for(int i=0;i<n;i++)
+		{
+			arr[n+i]=arr[i];
+			pre[(n+i)]=pre[(n+i-1)]+arr[n+i];
+		}
+}
+void circulate()
+{
+	for(int i=0;i<2*n;i++)
+		{
+			for(int j=0;j<2*n;j++)
+			dp[i][j]=-1;
+		}
+}
+ll mini(ll a,ll b)
+{
+	if(a>b)
+	return b;
+	else 
+	return a; 
+}
+ll sum(int i,int j)
+{
+	if(i==j)
+	{
+		return arr[i];
+	}
+	else if(i<j)
+	{
+		if(i>=1)
+		 return(pre[j]-pre[i-1]);
+		 else
+		 return(pre[j]);
+	}
+	else
+	{
+		return(pre[(n-1)]-pre[i-1]+pre[j]);
+	}
+}
+ll solve(int i,int j)
+{
+	if(i==j)
+	{
+		dp[i][j]=0;
+		return dp[i][j];
+	}
+	else if(i<j)
+	{
+		if(dp[i][j]!=-1)
+		return dp[i][j];
+		dp[i][j]=LONG_MAX;
+	    for(int k=i;k<j;k++)
+	    {
+	    	dp[i][j]=mini(dp[i][j],solve(i,k)+solve(k+1,j)+sum(i,k)+sum(k+1,j));
+		}
+		return dp[i][j];
+	}
+}
+int main(void)
+{
+	int t;
+	cin>>t;
+	while(t-->0)
+	{
+		cin>>n;
+		cin>>arr[0];
+		pre[0]=arr[0];
+		lolwa();
+		circulate();
+		ll k;
+		ll res=LONG_MAX;
+		for(int i=0;i<n;i++)
+		{
+			k=solve(i,(n-1+i));
+			if(k<res)
+			res=k;
+		}
+		cout<<res<<endl;
+	}
+}
